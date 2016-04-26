@@ -1,0 +1,38 @@
+{
+  "name": "usernotification",
+  "version": "1.0.0",
+  "description": "User notifications to alert users that something requires their attention",
+  "main": "src/angular-notification.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/c4rm4x/C4rm4x.User.Notification.git"
+  },
+  "keywords": [
+    "user",
+    "notification",
+    "interaction",
+    "loading",
+    "error",
+    "confirm"
+  ],
+  "author": "]C4rM4X[",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/c4rm4x/C4rm4x.User.Notification/issues"
+  },
+  "homepage": "https://github.com/c4rm4x/C4rm4x.User.Notification#readme",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^1.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-jasmine": "^1.0.0",
+    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0"
+  },
+  "dependencies": {
+    "grunt-cli": "^1.2.0"
+  }
+}
