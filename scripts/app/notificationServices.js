@@ -42,7 +42,9 @@ notificationServices.service('Notify', ['SweetAlert', '$window', '$rootScope',
 			showCancelButton: true,
 			closeOnConfirm: false,
 			showLoaderOnConfirm: true
-		}, function() {
+		}, function(isConfirm) {
+			if (!isConfirm) return;
+			
 			onConfirm()
 				.then(function(data) {
 					if (onSuccess) {						
