@@ -20,7 +20,7 @@ notificationServices.service('Notify', ['SweetAlert', '$window', '$rootScope',
 	};	
 
 	this.loading = function(promise, text) {				
-		promise
+		promise()
 			.then(function() {
 				close();				
 			})
@@ -47,7 +47,7 @@ notificationServices.service('Notify', ['SweetAlert', '$window', '$rootScope',
 			closeOnConfirm: false,
 			showLoaderOnConfirm: true
 		}, function() {
-			onConfirm
+			onConfirm()
 				.then(function(data) {
 					if (onSuccess) {						
 						SweetAlert.swal('Sweet!', onSuccess.text || 'Everything went well', 'success');

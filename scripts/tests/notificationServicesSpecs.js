@@ -20,7 +20,7 @@ describe('Notifcation services', function() {
 		describe('loading', function() {
 
 			beforeEach(function() {
-				service.loading(deferred.promise, 'anyText');
+				service.loading(function() { return deferred.promise; }, 'anyText');
 			});
 
 			it('should invoke swal from SweetAlert with no interaction whatsoever', function() {
@@ -44,7 +44,7 @@ describe('Notifcation services', function() {
 		describe('confirm', function() {
 
 			beforeEach(function() {
-				service.confirm('anyQuestion', deferred.promise);
+				service.confirm('anyQuestion', function() { return deferred.promise; });
 			});
 
 			it('should invoke swal from SweetAlert asking the question', function() {
