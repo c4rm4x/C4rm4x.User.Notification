@@ -38,7 +38,7 @@ notificationServices.service('Notify', ['SweetAlert', '$window', '$rootScope',
 		});
 	};
 
-	this.confirm = function(question, onConfirm, onSuccess) {
+	this.confirm = function(question, onConfirm, onSuccess, onBadRequest) {
 		SweetAlert.swal({
 			title: 'Are you sure?',
 			text: question,
@@ -56,8 +56,11 @@ notificationServices.service('Notify', ['SweetAlert', '$window', '$rootScope',
 						if (onSuccess.action) onSuccess.action(data);
 					}
 				})
-				.catch(function(errorDescription) {
-					error(errorDescription);
+				.catch(function(response) {
+					error(response.data);
+
+					if (response.config && response.config.errors && onBadRequest)
+						onBadRequest(response.config.errors);
 				});
 		});
 	};
