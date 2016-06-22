@@ -24,8 +24,8 @@ notificationServices.service('Notify', ['SweetAlert', '$window', '$rootScope',
 			.then(function() {
 				close();				
 			})
-			.catch(function(errorDescription) {
-				error(errorDescription);
+			.catch(function(response) {
+				error(response.data);
 			});
 
 		SweetAlert.swal({

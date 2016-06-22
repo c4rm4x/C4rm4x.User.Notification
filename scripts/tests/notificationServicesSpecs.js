@@ -35,7 +35,9 @@ describe('Notifcation services', function() {
 			});
 
 			it('should show error message when promise ends with errors', function() {
-				deferred.reject('anyError');
+				deferred.reject({
+					data: 'anyError'
+				});
 				scope.$apply();
 				expect(SweetAlert.error).toHaveBeenCalledWith('Oops...', 'anyError');
 			});

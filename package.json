@@ -1,6 +1,6 @@
 {
   "name": "usernotification",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "User notifications to alert users that something requires their attention",
   "main": "src/angular-notification.js",
   "scripts": {
