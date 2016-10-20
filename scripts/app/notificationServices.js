@@ -1,63 +1,66 @@
 'use strict';
 
-var notificationServices = angular.module('angular-notification-services', ['oitozero.ngSweetAlert']);
+var notificationServices = angular.module('angular-notification-services', [
+	'angular-notification-controllers',
+	'ngMaterial']);
 
-notificationServices.service('Notify', ['SweetAlert', '$window', '$rootScope', 
-	function(SweetAlert, $window, $rootScope) {
+notificationServices.service('Notify', ['$mdToast', '$mdDialog',
+	function($mdToast, $mdDialog) {
 
-	function close() {
-		$rootScope.$evalAsync(function() {
-			$window.swal.close();
-		});
-	}
-
-	function error(errorDescription) {
-		SweetAlert.error('Oops...', errorDescription);
+	function error(errorDescription, onChanged) {		
+		if (onChanged) onChanged(false);
+		$mdToast.show({
+			hideDelay: 3000,
+			position: 'top right',
+			locals: {
+				errorDescription: errorDescription
+			},
+			controller: 'notificationToastCtrl',
+			template : '<md-toast><span class=\'md-toast-text\' flex>Seems something got wrong</span><md-button class=\'md-highlight\' ng-click=\'openMoreInfo($event)\'>More info</md-button><md-button ng-click=\'closeToast()\'>&times;</md-button></md-toast>'
+        });
 	};	
 
-	this.loading = function(promise, text) {				
+	this.loading = function(promise, onChanged) {				
 		promise()
 			.then(function() {
-				close();				
+				onChanged(false);
 			})
-			.catch(function(response) {
-				error(response.data);
+			.catch(function(response) {				
+				error(response.data, onChanged);
 			});
 
-		SweetAlert.swal({
-			title: text || 'Loading...',
-			type: 'info',
-			showCancelButton: false,	
-			showConfirmButton: false,	
-			closeOnConfirm: false,
-			closeOnCancel: false
-		});
+		onChanged(true);
 	};
 
-	this.confirm = function(question, onConfirm, onSuccess, onBadRequest) {
-		SweetAlert.swal({
-			title: 'Are you sure?',
-			text: question,
-			type: 'warning',
-			showCancelButton: true,
-			closeOnConfirm: false,
-			showLoaderOnConfirm: true
-		}, function(isConfirm) {
-			if (!isConfirm) return;
-			
+	this.confirm = function($event, question, onConfirm, onSuccess, onBadRequest) {
+		var confirm = $mdDialog.confirm()
+			.title('Are you sure?')
+			.textContent(question)
+			.ariaLabel('Lucky day')
+			.targetEvent($event)
+			.ok('Okay!')
+			.cancel('Nope');
+
+		$mdDialog.show(confirm).then(function() {
 			onConfirm()
 				.then(function(data) {
-					if (onSuccess) {						
-						SweetAlert.swal('Sweet!', onSuccess.text || 'Everything went well', 'success');
-						if (onSuccess.action) onSuccess.action(data);
-					}
+					$mdDialog.hide();
+					if (onSuccess) onSuccess(data);					
 				})
-				.catch(function(response) {
+				.catch(function(response) {					
+					$mdDialog.hide();
 					error(response.data);
 
 					if (response.config && response.config.errors && onBadRequest)
 						onBadRequest(response.config.errors);
 				});
+
+			$mdDialog.show({
+				template: '<md-dialog style=\'background-color:transparent;box-shadow:none\'><div style=\'min-height:200px;\' layout=\'row\' layout-align=\'center center\' aria-label=\'wait\'><md-progress-circular md-mode=\'indeterminate\' ></md-progress-circular></div></md-dialog>',
+				parent: angular.element(document.body),
+				clickOutsideToClose: false,
+				fullscreen: false
+			});
 		});
 	};
 }]);

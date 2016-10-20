@@ -16,8 +16,9 @@ module.exports = function(grunt) {
 	                    'bower_components/angular/angular.js',
 	                    'bower_components/angular-route/angular-route.js',
 	                    'bower_components/angular-mocks/angular-mocks.js',
-	                    'bower_components/sweetalert/dist/sweetalert-dev.js',
-	                    'bower_components/ngSweetAlert/SweetAlert.js'
+	                    'bower_components/angular-animate/angular-animate.js',
+	                    'bower_components/angular-aria/angular-aria.js',
+	                    'bower_components/angular-messages/angular-messages.js'
 	                ]
 	            }
 	        }
